@@ -11,6 +11,7 @@ const App = ({notes}) =>{
           return <Note note={val} key={val.id}/>
         })}
       </ul>
+      <h3>Imported to PC</h3>
     </div>
   )
 }
