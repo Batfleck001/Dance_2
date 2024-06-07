@@ -1,14 +1,17 @@
+
+import Note from "./components/Note"
+
 const App = ({notes}) =>{
   return(
     <div>
       <h1>Notes</h1>
       <ul>
-        <li>{notes[0].content}</li>
-        <li>{notes[1].content}</li>
-        <li>{notes[2].content}</li>
+        {notes.map((val) => {
+          console.log(val)
+          return <Note note={val} key={val.id}/>
+        })}
       </ul>
     </div>
   )
-
 }
 export default App;
