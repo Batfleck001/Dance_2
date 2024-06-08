@@ -13,12 +13,19 @@ const App = () => {
 
   const addPerson = (event) =>{
     event.preventDefault()
-    const newpersonObject = {
+
+    const find = persons.find(val => val.name.toLowerCase() === newName.toLowerCase())
+    if(find){
+      alert(`${newName} is already added to the phonebook`)
+    }
+    else{
+      const newpersonObject = {
       name : newName,
       id: persons.length+1
     }
     setpersons(persons.concat(newpersonObject))
-    setnewName('')
+  }
+  setnewName('')
   }
     const handlechange = (event) =>{
       event.preventDefault()
