@@ -1,18 +1,26 @@
 
+import { useState } from "react"
 import Note from "./components/Note"
 
-const App = ({notes}) =>{
+const App = () =>{
+
+  const [notes, setNotes] = useState("Ammuku dumuku")
+
+  
+  const addnote = (event) =>{
+    event.preventDefault()
+    console.log("Kadauule Ajith eh ( ͡° ͜ʖ ͡°)!!!",event.target)
+    console.log(notes)
+  }
   return(
-    <div>
+    <>
       <h1>Notes</h1>
-      <ul>
-        {notes.map((val) => {
-          console.log(val)
-          return <Note note={val} key={val.id}/>
-        })}
-      </ul>
-      <h3>Imported to PC</h3>
-    </div>
+      <form>
+        <input value={notes} onChange={e => setNotes(e.target.value)}/>
+        <button type="submit" onClick={addnote}>AK ( ͡° ͜ʖ ͡°)
+</button>
+      </form>    
+    </>
   )
 }
 export default App;
