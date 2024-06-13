@@ -1,16 +1,26 @@
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Note from "./components/Note"
+import axios from "axios" 
+const App = () =>{
 
-const App = (props) =>{
 
-  const [notes,setnotes] = useState(props.notes)
+  const [notes,setnotes] = useState([])
   const [newnote, setnewNote] = useState("Ammuku dumuku")
   const [showAll, setshowAll] = useState(true)
 
+  useEffect(() =>{
+
+    console.log('effect')
+    axios.get("http://localhost:3001/notes")
+    .then(res => {
+      console.log("Promise fulfilled")
+      setnotes(res.data)
+    })
+    .catch(e => console.log("Thambi Error pa : ", e))
+  },[])
+
   const addNote = (event) => {
     event.preventDefault()
-    console.log('button clicked', event.target)
 
     const newnoteObject = {
       content : newnote,
@@ -22,12 +32,9 @@ const App = (props) =>{
     setnewNote('')
 
   }
-  console.log(notes)
   const handlenotechange = (event) => {
     event.preventDefault()
     setnewNote(event.target.value)
-
-    console.log(event.target.value)
   }
 
   const notetoshow = showAll
