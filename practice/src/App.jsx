@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import Note from "./components/Note"
 import axios from "axios" 
+import noteService from "./services/Notes"
 const App = () =>{
 
 
@@ -11,12 +12,15 @@ const App = () =>{
   useEffect(() =>{
 
     console.log('effect')
-    axios.get("http://localhost:3001/notes")
-    .then(res => {
-      console.log("Promise fulfilled")
-      setnotes(res.data)
-    })
-    .catch(e => console.log("Thambi Error pa : ", e))
+
+    noteService
+      .getAll()
+      .then(initailnotes => setnotes(initailnotes))
+      // .then(res => {
+      //   console.log("Promise fulfilled")
+      //   setnotes(res.data)
+      // })
+      .catch(e => console.log("Thambi Error pa : ", e))
   },[])
 
   const addNote = (event) => {
@@ -26,12 +30,17 @@ const App = () =>{
       content : newnote,
       important : Math.random() < 0.5
     }
-    axios.post("http://localhost:3001/notes",newnoteObject)
-    .then(res => {
-      setnotes(notes.concat(res.data))
-      setnewNote('')
-    })
-    .catch(e => console.log(e))
+    noteService
+      .create(newnoteObject)
+      .then(newdata => {
+        setnotes(notes.concat(newdata))
+        setnewNote('')
+      })
+      // .then(res => {
+      //   setnotes(notes.concat(res.data))
+      //   setnewNote('')
+      // })
+      .catch(e => console.log(e))
 
   }
   const handlenotechange = (event) => {
@@ -43,14 +52,15 @@ const App = () =>{
   ? notes : notes.filter(val => val.important)
 
   const toggleimportanceOf = (id) =>{
-    const url = `http://localhost:3001/notes/${id}`
     const note = notes.find(n => n.id === id)
     const changedNote = {...note,important : !note.important}
 
-    axios.put(url,changedNote)
-    .then(res=> {
-      setnotes(notes.map(n => n.id === id ? res.data : n))
-    })
+    noteService
+      .update(note.id,changedNote)
+      .then(changed => setnotes(notes.map(n => n.id !== id ? n : changed)))
+      // .then(res=> {
+      //   setnotes(notes.map(n => n.id === id ? res.data : n))
+      // })
   }
 
 
