@@ -12,10 +12,10 @@ const create = newobj =>{
 }
 const update = (id,newobj) =>{
     const req = axios.put(`${baseUrl}/${id}`,newobj)
-    return req.then(res => res.data)
+    return req.then(res => res.data )
 }       
 export default {
-    getAll : getAll,
-    create : create,
-    update : update
+    getAll,     
+    create,
+    update
 }

@@ -28,7 +28,7 @@ const App = () =>{
 
     const newnoteObject = {
       content : newnote,
-      important : Math.random() < 0.5
+      important : Math.random() < 0.5 
     }
     noteService
       .create(newnoteObject)
@@ -58,6 +58,12 @@ const App = () =>{
     noteService
       .update(note.id,changedNote)
       .then(changed => setnotes(notes.map(n => n.id !== id ? n : changed)))
+      .catch(err => {
+        alert(
+          `the note '${note.content}' was already deleted from server`
+        )
+        setNotes(notes.filter(n => n.id !== id))
+  })
       // .then(res=> {
       //   setnotes(notes.map(n => n.id === id ? res.data : n))
       // })
